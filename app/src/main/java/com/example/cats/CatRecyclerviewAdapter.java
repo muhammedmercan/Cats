@@ -2,11 +2,13 @@ package com.example.cats;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -32,16 +34,25 @@ public class CatRecyclerviewAdapter extends RecyclerView.Adapter<CatRecyclerview
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtDescription;
-        ImageView imageView;
+        TextView txtName;
+        ImageView imageView, imgFavIcon;
         CardView parent;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
-            txtDescription = itemView.findViewById(R.id.txtDescription);
             imageView = itemView.findViewById(R.id.img);
+            imgFavIcon = itemView.findViewById(R.id.imgFavIcon);
+
+            imgFavIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    imgFavIcon.
+                }
+            });
+
 
 
 
@@ -50,8 +61,13 @@ public class CatRecyclerviewAdapter extends RecyclerView.Adapter<CatRecyclerview
                 public void onClick(View view) {
                     Intent intent = new Intent(context,ShowDetailOfCat.class);
                     intent.putExtra("name",cats.get(getLayoutPosition()).getName());
-                    intent.putExtra("description",cats.get(getLayoutPosition()).getDescription());
                     intent.putExtra("url",cats.get(getLayoutPosition()).getUrl());
+                    intent.putExtra("description",cats.get(getLayoutPosition()).getDescription());
+                    intent.putExtra("origin",cats.get(getLayoutPosition()).getOrigin());
+                    intent.putExtra("lifeSpan",cats.get(getLayoutPosition()).getLifeSpan());
+                    intent.putExtra("dogFriendly",cats.get(getLayoutPosition()).getDogFriendly());
+                    intent.putExtra("temperament",cats.get(getLayoutPosition()).getTemperament());
+                    intent.putExtra("wikipediaUrl",cats.get(getLayoutPosition()).getWikipediaUrl());
                     context.startActivity(intent);
                 }
             });
@@ -70,7 +86,6 @@ public class CatRecyclerviewAdapter extends RecyclerView.Adapter<CatRecyclerview
     @Override
     public void onBindViewHolder(@NonNull  CatRecyclerviewAdapter.MyViewHolder holder, int position) {
         holder.txtName.setText(cats.get(position).getName());
-        holder.txtDescription.setText(cats.get(position).getDescription());
         Glide.with(context).load(cats.get(position).getUrl()).into(holder.imageView);
 
 

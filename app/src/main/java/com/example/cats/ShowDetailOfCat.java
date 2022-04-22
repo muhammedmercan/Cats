@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 
 public class ShowDetailOfCat extends AppCompatActivity {
 
-    TextView txtTitleDetail, txtDescriptionDetail;
+    TextView txtTitleDetail, txtDescriptionDetail, txtOrigin, txtLifeSpan, txtDogFriendly, txtTemperament, txtWikipediaurl;
     ImageView imgDetail;
     Intent intent;
 
@@ -32,6 +32,11 @@ public class ShowDetailOfCat extends AppCompatActivity {
         txtTitleDetail = findViewById(R.id.txtTitleDetail);
         txtDescriptionDetail = findViewById(R.id.txtDescriptionDetail);
         imgDetail = findViewById(R.id.imgDetail);
+        txtOrigin = findViewById(R.id.txtOrigin);
+        txtLifeSpan = findViewById(R.id.txtLifeSpan);
+        txtDogFriendly = findViewById(R.id.txtDogFriendly);
+        txtTemperament = findViewById(R.id.txtTemperament);
+        txtWikipediaurl = findViewById(R.id.txtWikipediaurl);
 
     }
 
@@ -40,6 +45,11 @@ public class ShowDetailOfCat extends AppCompatActivity {
         txtTitleDetail.setText(intent.getStringExtra("name"));
         txtDescriptionDetail.setText(intent.getStringExtra("description"));
         Glide.with(this).load(intent.getStringExtra("url")).into(imgDetail);
+        txtOrigin.setText(intent.getStringExtra("origin"));
+        txtLifeSpan.setText(intent.getStringExtra("lifeSpan"));
+        txtDogFriendly.setText(intent.getStringExtra("dogFriendly"));
+        txtTemperament.setText(intent.getStringExtra("temperament"));
+        txtWikipediaurl.setText(intent.getStringExtra("wikipediaUrl"));
 
 
 

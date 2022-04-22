@@ -1,8 +1,20 @@
 package com.example.cats;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Cat {
 
-    private String name, url, description, origin, lifeSpan, dogFriendly, temperament, wikipediaUrl;
+    private String name;
+    private String url;
+    private String description;
+    private String origin;
+    @SerializedName("life_span")
+    private String lifeSpan;
+    @SerializedName("dog_friendly")
+    private String dogFriendly;
+    private String temperament;
+    @SerializedName("wikipedia_url")
+    private String wikipediaUrl;
     private Image image;
 
     public Cat(String name, String url, String description, String origin, String lifeSpan, String dogFriendly, String temperament, String wikipediaUrl) {
