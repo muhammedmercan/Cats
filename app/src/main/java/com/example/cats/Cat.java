@@ -16,6 +16,8 @@ public class Cat {
     @SerializedName("wikipedia_url")
     private String wikipediaUrl;
     private Image image;
+    @SerializedName("reference_image_id")
+    private String referenceImageId;
 
     public Cat(String name, String url, String description, String origin, String lifeSpan, String dogFriendly, String temperament, String wikipediaUrl) {
         this.name = name;
@@ -28,6 +30,8 @@ public class Cat {
         this.wikipediaUrl = wikipediaUrl;
 
     }
+
+
 
     public String getName() {
         return name;
@@ -99,5 +103,13 @@ public class Cat {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public String getReferenceImageId() {
+        return referenceImageId;
+    }
+
+    public void setReferenceImageId(String referenceImageId) {
+        this.referenceImageId = referenceImageId;
     }
 }

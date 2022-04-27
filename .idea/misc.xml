@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/drawable/splash_screen.xml" value="0.139" />
         <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/layout/activity_boot_up_receiver.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/layout/activity_favorites.xml" value="0.21195652173913043" />
         <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/layout/activity_show_detail_of_cat.xml" value="0.4" />
+        <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/layout/activity_splash_screen.xml" value="0.22644927536231885" />
         <entry key="..\:/Users/muham/AndroidStudioProjects/Cats/app/src/main/res/layout/cat_item.xml" value="0.4" />
       </map>
     </option>

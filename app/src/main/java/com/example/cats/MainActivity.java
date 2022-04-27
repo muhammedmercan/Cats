@@ -3,6 +3,10 @@ package com.example.cats;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,44 +33,68 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    //TODO tanımlamalarda private public koymaya gerek var mı diye araştır
     private RecyclerView catRecycler;
     public ArrayList<Cat> data;
     public ArrayList<String> catsName;
     public AutoCompleteTextView multiAutoCompleteTextView;
+    public ImageView imgGoFavorites;
+    public String selectedCat;
+    public Call<List<Cat>> call;
 
 
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_Cats);
         setContentView(R.layout.activity_main);
         data = new ArrayList<Cat>();
         catsName = new ArrayList<>();
 
-        multiAutoCompleteTextView = findViewById(R.id.search);
 
+        initViews();
         getDataFromApi();
         setAutoCompleteContent();
+
+
+
 
 
         multiAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, multiAutoCompleteTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, multiAutoCompleteTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+                data.clear();
+                selectedCat = multiAutoCompleteTextView.getText().toString();
+                getDataFromApi();
+
+
 
             }
         });
 
+        imgGoFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,Favorites.class);
+                startActivity(intent);
 
-
-
+            }
+        });
 
         //TODO autocomplate yi düzenle
-        //TODO material design a komple geçiş yap
 
+    }
 
+    public void initViews() {
+        multiAutoCompleteTextView = findViewById(R.id.search);
+        imgGoFavorites = findViewById(R.id.imgGoFavorites);
     }
 
     public void setAutoCompleteContent() {
@@ -74,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
         multiAutoCompleteTextView.setThreshold(1);//will start working from first character
         multiAutoCompleteTextView.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-
-
     }
 
     public void getDataFromApi() {
@@ -87,39 +113,56 @@ public class MainActivity extends AppCompatActivity {
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<List<Cat>> call = jsonPlaceHolderApi.getCats();
 
 
+        if (!(selectedCat == null) ) {
+
+            call = jsonPlaceHolderApi.getCats(selectedCat);
+
+        }
+
+        else {
+            call = jsonPlaceHolderApi.getCats();
+        }
         call.enqueue(new Callback<List<Cat>>() {
             @Override
             public void onResponse(Call<List<Cat>> call, Response<List<Cat>> response) {
-
                 if (!response.isSuccessful()) {
-                    //textViewResult.setText("Code: " + response.code());
 
                     return;
                 }
+
+                //https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg
+
                 List<Cat> cats = response.body();
 
                 ArrayList<Cat> a1 = new ArrayList<Cat>(cats);
-                //setCatRecycler(a1);
+
 
                 for (Cat cat : a1) {
 
                     try {
-                        data.add(new Cat(cat.getName(), cat.getImage().getUrl(), cat.getDescription(), cat.getOrigin(),cat.getLifeSpan(),cat.getDogFriendly(),
-                                cat.getTemperament(),cat.getWikipediaUrl()));
+
+                        if (a1.size() == 1) {
+                            data.add(new Cat(cat.getName(),"https://cdn2.thecatapi.com/images/" + cat.getReferenceImageId() + ".jpg", cat.getDescription(), cat.getOrigin(),cat.getLifeSpan(),cat.getDogFriendly(),
+                                    cat.getTemperament(),cat.getWikipediaUrl()));
+                        }
+
+                        else {
+                            data.add(new Cat(cat.getName(),cat.getImage().getUrl(), cat.getDescription(), cat.getOrigin(),cat.getLifeSpan(),cat.getDogFriendly(),
+                                    cat.getTemperament(),cat.getWikipediaUrl()));
+
+                        }
 
                         catsName.add(cat.getName());
 
-
-
                     }
                     catch(Exception e) {
+                        System.out.println(e);
+
                         //  Block of code to handle errors
                     }
 
-                    //textViewResult.append(content);
                 }
                 setCatRecycler(data);
 
@@ -127,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Cat>> call, Throwable t) {
-                //textViewResult.setText(t.getMessage());
 
             }
         });
